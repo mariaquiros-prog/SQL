@@ -1,0 +1,55 @@
+/*******************************************************************************
+ * 4. Obtén las películas cuyo idioma coincide con el idioma original.
+ *******************************************************************************/
+
+SELECT 
+    title AS "Título de la Película"
+FROM 
+    film
+WHERE 
+    original_language_id IS NOT NULL 
+    AND language_id = original_language_id;
+
+/*******************************************************************************
+ * 23. Números de alquiler por día, ordenados por cantidad de alquiler de
+forma descendente.
+ *******************************************************************************/
+
+SELECT 
+    DATE(rental_date) AS "Día", 
+    COUNT(*) AS "Total Alquileres"
+FROM 
+    rental
+GROUP BY 
+    DATE(rental_date) 
+ORDER BY 
+    "Total Alquileres" DESC;
+
+
+/*******************************************************************************
+ * 25. Averigua el número de alquileres registrados por mes.
+ *******************************************************************************/
+
+SELECT 
+    TO_CHAR(rental_date, 'YYYY-MM') AS "Mes", 
+    COUNT(*) AS "Total Alquileres"
+FROM 
+    rental
+GROUP BY 
+    TO_CHAR(rental_date, 'YYYY-MM') 
+ORDER BY 
+    "Mes";
+
+/*******************************************************************************
+ * 33. Obtener todas las películas que tenemos y todos los registros de
+alquiler.
+ *******************************************************************************/
+
+SELECT 
+    f.title AS "Película", 
+    r.rental_id AS "ID Alquiler", 
+    r.rental_date AS "Fecha Alquiler"
+FROM 
+    film f
+LEFT JOIN inventory i ON f.film_id = i.film_id 
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id;
